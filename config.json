@@ -1,0 +1,6 @@
+{
+    "bindAddress": "127.0.0.1:32088",
+    "mongoAddress": "127.0.0.1:27017",
+    "mongoDb": "china2b2t",
+    "mongoCol": "playerinfo"
+}
