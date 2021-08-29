@@ -24,28 +24,21 @@ func CreateUser(c *gin.Context) {
 	uid := c.PostForm("uid")
 	premium := c.PostForm("premium")
 
-	switch premium {
-	case "1":
-		code, message, uu := MCreateUser(uid, true)
-		result = gin.H{
-			"code":    code,
-			"message": message,
-			"uuid":    uu,
-		}
-		break
-	case "0":
-		code, message, uu := MCreateUser(uid, false)
-		result = gin.H{
-			"code":    code,
-			"message": message,
-			"uuid":    uu,
-		}
-		break
-	default:
+	if uid == "" || premium == "" {
 		result = gin.H{
 			"code":    -1,
 			"message": "Invalid data",
 		}
+
+		c.JSON(http.StatusOK, result)
+		return
+	}
+
+	code, message, uu := MCreateUser(uid, (premium == "1"))
+	result = gin.H{
+		"code":    code,
+		"message": message,
+		"uuid":    uu,
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -58,6 +51,16 @@ func QueryUser(c *gin.Context) {
 	}
 
 	id := c.Param("id")
+
+	if id == "" {
+		result = gin.H{
+			"code":    -1,
+			"message": "Invalid data",
+		}
+
+		c.JSON(http.StatusOK, result)
+		return
+	}
 
 	uuid, err := MQueryUser(id)
 	if err != nil {
@@ -78,4 +81,33 @@ func QueryUser(c *gin.Context) {
 
 func QueryUUID(c *gin.Context) {
 
+}
+
+func ImportUser(c *gin.Context) {
+	result := gin.H{
+		"code":    -10,
+		"message": "Unhandled request",
+	}
+
+	uid := c.PostForm("uid")
+	uuid := c.PostForm("uuid")
+	premium := c.PostForm("premium")
+
+	if uid == "" || uuid == "" {
+		result = gin.H{
+			"code":    -1,
+			"message": "Invalid data",
+		}
+
+		c.JSON(http.StatusOK, result)
+		return
+	}
+
+	code, message := MImportUser(uid, (premium == "1"), uuid)
+	result = gin.H{
+		"code":    code,
+		"message": message,
+	}
+
+	c.JSON(http.StatusOK, result)
 }

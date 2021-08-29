@@ -91,6 +91,36 @@ func MQueryUUID(uuid string) {
 
 }
 
+func MImportUser(uid string, premium bool, uuid string) (int, string) {
+	mongo, _, c, err := XCreateDataBaseDial()
+
+	defer mongo.Close()
+
+	if err != nil {
+		log.Panic(err)
+		return 5001, err.Error()
+	}
+
+	if ICheckUIDIfExists(uid) {
+		return 5002, "Document already exists"
+	}
+
+	data := Record{
+		UUID:    uuid,
+		UID:     uid,
+		Premium: premium,
+	}
+
+	err = c.Insert(&data)
+
+	if err != nil {
+		log.Panic(err)
+		return 5003, err.Error()
+	}
+
+	return 0, "OK"
+}
+
 func ICheckUIDIfExists(uid string) bool {
 	mongo, _, c, err := XCreateDataBaseDial()
 

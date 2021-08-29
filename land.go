@@ -49,6 +49,7 @@ func main() {
 		v1.POST("/user/create", frostland.CreateUser)
 		v1.GET("/user/query/nickname/:id", frostland.QueryUser)
 		// v1.GET("/user/query/uuid/:uuid", frostland.QueryUUID)
+		v1.POST("/user/import", frostland.ImportUser)
 	}
 
 	r.Run(v.BindAddress)
