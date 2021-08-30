@@ -12,4 +12,11 @@ Form data:
 /api/v1/query/nickname/:username - Query a user
 Params:
     username - Unique identification
+
+/api/v1/user/import - Import a user with existed info
+Form data:
+    uid - Unique
+    uuid - Existed UUID
+    premium - ...
 ```
+---

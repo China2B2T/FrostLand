@@ -101,8 +101,8 @@ func MImportUser(uid string, premium bool, uuid string) (int, string) {
 		return 5001, err.Error()
 	}
 
-	if ICheckUIDIfExists(uid) {
-		return 5002, "Document already exists"
+	if ICheckUIDIfExists(uid) || ICheckUUIDIfExists(uuid) {
+		return 5002, "Identification already exists"
 	}
 
 	data := Record{
